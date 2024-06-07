@@ -98,7 +98,7 @@ f_ThemeTraining <- function(plot, chart_info, plottitle = "include", xaxis = "In
 
 
 
-save_plots_as_png <- function(plot_names, dest_path = "04_outputs") {
+save_plots_as_png <- function(plot_names, dest_path = "04_outputs/plots") {
   if (!dir.exists(dest_path)) {
     dir.create(dest_path)
   }

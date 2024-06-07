@@ -27,6 +27,10 @@ CHART_PPI = c(title = "Change in Pillars of Peace 2013 - 2022",
                   type = "Chart", position = "Normal")
 
 
+CHART_ACLED = c(title = "5,224 deaths from terrorism",
+              sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
+              type = "Chart", position = "Normal")
+
 
 ### --- Loading Data
 
@@ -88,4 +92,35 @@ pCHART_PPI <- f_ThemeTraining(
 
 pCHART_PPI
 
+# 2. ACLED CHART ==============================================================
 
+# Pulling fatalities data from data base
+
+
+Acled.df <- iepg_acled() %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  group_by(year) %>%
+  summarise(fatalities = sum(fatalities, na.rm = TRUE))
+
+CHART_ACLED.df <- Acled.df %>%
+  dplyr::filter(year > 2006)
+ 
+
+pCHART_ACLED <- ggplot(data = CHART_ACLED.df, aes(x = year, y = fatalities)) +
+  geom_line (size = 0.75, color = 'red') +
+  scale_x_continuous(breaks = c(min(CHART_ACLED.df$year), max(CHART_ACLED.df$year))) 
+  
+  
+
+pCHART_ACLED <- f_ThemeTraining(
+  plot = pCHART_ACLED, 
+  chart_info = CHART_ACLED, 
+  plottitle = "include", 
+  xaxis = "Include", 
+  yaxis = "Include", 
+  xgridline = "Include", 
+  ygridline = "Include"
+)
+
+
+pCHART_ACLED

@@ -13,7 +13,7 @@ f_LibraryLoader(tidyverse,
 
 
 # Export Data
-plot_list <- c("pCHART_PPI")
+plot_list <- c("pCHART_PPI", "pCHART_ACLED")
 
 selected_columns <- c("geoname", "GPI", "GTI", "PPI")
 
