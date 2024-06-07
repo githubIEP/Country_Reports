@@ -27,7 +27,8 @@ f_LibraryLoader(tidyverse,
                 extrafont,
                 dplyr,
                 openxlsx,
-                iepg)
+                iepg,
+                stringr)
 
 
 

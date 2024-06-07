@@ -4,13 +4,13 @@
 
 
 data_frames <- list(
-  GTI, PPI
+  GTI, PPI, ETR
 )
 
 Indicators.df <- GPI
 
 for(df in data_frames) {
-  Indicators.df <- Indicators.df %>% left_join(df, by = "geoname")
+  Indicators.df <- Indicators.df %>% left_join(df, by = "geocode")
 }
 
 Indicators.df <- Indicators.df %>%

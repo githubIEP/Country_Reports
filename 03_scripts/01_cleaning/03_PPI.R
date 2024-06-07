@@ -6,7 +6,7 @@ PPI <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
   dplyr::filter(year == max(year)) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   dplyr::rename(PPI = `value`)

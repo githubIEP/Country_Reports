@@ -4,18 +4,6 @@
 #################################################################
 
 ### --- Libraries, Variables, Functions
-library(knitr)
-library(openxlsx)
-library(reshape2)
-library(iepg)
-library(dplyr)
-library(scales)
-library(cowplot)
-library(grid)
-library(iepsqlite)
-library(patchwork)
-library(kableExtra)
-library(rvest)
 library(ggrepel)
 
 ### --- List of Standard Charts and Tables
