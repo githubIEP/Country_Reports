@@ -1,7 +1,7 @@
 
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(dplyr, tidyr, stringr, readr, openxlsx, readxl, 
-               DataCombine, countrycode, ggplot2, patchwork)
+               DataCombine, countrycode, ggplot2, patchwork, bannerCommenter)
 
 devtools::install_github("david-hammond/tidyindexR")
 

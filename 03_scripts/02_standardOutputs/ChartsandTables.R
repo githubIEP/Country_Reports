@@ -75,7 +75,6 @@ pCHART_PPI = ggplot(data=CHART_PPI.df, aes(x=variablename, y= pct, fill=color)) 
 
 
 
-
 pCHART_PPI <- f_ThemeTraining(
   plot = pCHART_PPI, 
   chart_info = CHART_PPI, 
@@ -85,7 +84,6 @@ pCHART_PPI <- f_ThemeTraining(
   xgridline = "Include", 
   ygridline = "Include"
 )
-
 
 
 pCHART_PPI

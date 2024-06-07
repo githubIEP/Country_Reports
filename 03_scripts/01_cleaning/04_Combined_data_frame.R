@@ -21,6 +21,10 @@ Indicators.df <- Indicators.df %>%
 ##                Creating PPI Pilars data frame                ##
 ##################################################################
 
+# This combines all the PPI pillars as separate data frames and left joins them together to create a data frame for all 
+# pillars for all years for Burkina Faso
+# We then delete all the PPI data frames and save the master data frame to the PPI charts
+
 PPI1 <- iepg_search("PPI 2023 Report") %>%
   dplyr::filter(variablename == "Acceptance of the Rights of Others") %>%
   pull(muid) %>%

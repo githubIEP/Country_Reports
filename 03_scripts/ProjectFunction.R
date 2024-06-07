@@ -95,3 +95,25 @@ f_ThemeTraining <- function(plot, chart_info, plottitle = "include", xaxis = "In
   
   return(plot)
 }
+
+
+
+save_plots_as_png <- function(plot_names, dest_path = "04_outputs") {
+  if (!dir.exists(dest_path)) {
+    dir.create(dest_path)
+  }
+  
+  for (i in seq_along(plot_names)) {
+    plot_object <- get(plot_names[i])
+    
+    file_name <- file.path(dest_path, paste0(plot_names[i], ".png"))
+    
+    ggsave(file_name, plot_object, width = 8, height = 6, dpi = 300)
+    
+    cat("Plot", plot_names[i], "saved as", file_name, "\n")
+  }
+}
+
+
+
+
