@@ -22,7 +22,8 @@ library(ggrepel)
 
 # Chart Pie for Burkina Faso's Positive Peace Pillars ====================================================
 CHART_PPI = c(title = "Change in Pillars of Peace 2013 - 2022",
-                  sheet = "Pillars", source = "IEP Calculations", xtext = "", ytext = "",
+                  sheet = "Since 2013, four out of the eight pillars deteriorated more than the other four improved. 
+              The overall PPI deteriorated by 2% since 2013.", source = "IEP Calculations", xtext = "", ytext = "",
                   type = "Chart", position = "Normal")
 
 
@@ -51,7 +52,7 @@ CHART_PPI.df <- CHART_PPI.df %>%
   ungroup() %>%
   select(-min_year, -max_year, -min_score, -max_score, -year, -geoname, -PPI) %>%
   distinct() %>%
-  mutate(color = ifelse(pct_diff > 0, "positive", "negative")) 
+  mutate(color = ifelse(pct_diff > 0, "deterioration", "improvement")) 
 
 
 
@@ -68,9 +69,10 @@ CHART_PPI.df <- CHART_PPI.df %>%
 
 pCHART_PPI = ggplot(data=CHART_PPI.df, aes(x=variablename, y= pct, fill=color)) + 
   geom_bar(position=position_dodge(width=0.9), stat='identity') +
-  scale_fill_manual(values=c("positive"="red", "negative"="lightblue")) +
+  scale_fill_manual(values=c("deterioration"="red", "improvement"="lightblue")) +
   scale_y_continuous(labels=scales::percent) +
   coord_flip()
+
 
 
 
