@@ -116,5 +116,20 @@ save_plots_as_png <- function(plot_names, dest_path = "04_outputs/plots") {
 }
 
 
+### Creating function to pull region from the geocode ============================================
+
+df <- iepg_search("GPI 2023 Report") %>%
+  dplyr::filter(variablename == "overall score") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup()
 
 
+get_region <- function(geocode) {
+  region <- df$gpi_region[df$geocode == GEOCODE]
+  if (length(region) == 0) {
+    return("Unknown")
+  } else {
+    return(region)
+  }
+}

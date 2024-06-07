@@ -1,5 +1,5 @@
 #################################################################
-##      Creating the GPI, PPI, GTI Ranks for Burkina Faso      ##
+##      Creating the GPI, PPI, GTI and ETR Ranks for Burkina Faso      ##
 #################################################################
 
 

@@ -7,6 +7,8 @@
 GEOCODE = "BFA"
 COUNTRY_NAME = "Burkina Faso"
 LATEST_YEAR = 2023
+REGION <- get_region(GEOCODE)
+
 
 
 ### Read Files and data ###
