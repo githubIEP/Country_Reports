@@ -4,8 +4,6 @@ library(openxlsx)
 
 
 
-
-
 GTI <- iepg_search("GTI rank") %>%
   pull(muid) %>%
   iepg_get() %>%

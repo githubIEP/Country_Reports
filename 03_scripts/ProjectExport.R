@@ -21,10 +21,7 @@ wbCHARTS_SECTION3 <- createWorkbook()
 
 # List
 SECTION3_EXPORT <- c(
-  "CHART_CompPie","TABLE_ImpactChange", "CHART_Trend_YOYTrend",
-  "TABLE_ImpactChangeTrend","CHART_DomainTrend","CHART_ArmedViolence","CHART_InterpersonalViolence",
-  "CHART_ViolenceContainment","CHART_PerCap", "TABLE_combined",
-  "CHART_EconImpactChange", "TABLE_TenCountries", "CHART_Composition", "TABLE_Appendix")
+  "CHART_PPI")
 
 # Reset Counters
 figure_count = 0
@@ -37,5 +34,5 @@ f_ProjectExport("3", wbCHARTS_SECTION3, CHARTBOOK_3, SECTION3_EXPORT)
 selected_columns <- c("geoname", "GPI", "GTI", "PPI")
 
 # Write selected columns to an Excel file
-write_selected_columns_to_excel(df4, selected_columns, "04_outputs/country_report.xlsx")
+write_selected_columns_to_excel(Indicators.df, selected_columns, "04_outputs/country_report.xlsx")
 

@@ -21,7 +21,7 @@ library(ggrepel)
 ### --- List of Standard Charts and Tables
 
 # Chart Pie for Burkina Faso's Positive Peace Pillars ====================================================
-CHART_PPI = c(title = "Change in Pillars of Peace 2009 - 2022",
+CHART_PPI = c(title = "Change in Pillars of Peace 2013 - 2022",
                   sheet = "Pillars", source = "IEP Calculations", xtext = "", ytext = "",
                   type = "Chart", position = "Normal")
 
@@ -31,15 +31,13 @@ CHART_PPI = c(title = "Change in Pillars of Peace 2009 - 2022",
 
 PPI_df <- rio::import("04_outputs/PPI_pillars.xlsx")
 
-
-
 ## -- CHART_BAR_CHART_PPI -----------------------------------------------------------------
 
 CHART_PPI.df <- PPI_df %>%
   pivot_longer(cols = -c(geoname, year),
                names_to = "variablename",
-               values_to = "PPI")
-
+               values_to = "PPI") %>%
+  dplyr::filter(year > 2012)
 
 CHART_PPI.df <- CHART_PPI.df %>%
   group_by(geoname, variablename) %>%
@@ -53,29 +51,38 @@ CHART_PPI.df <- CHART_PPI.df %>%
   ungroup() %>%
   select(-min_year, -max_year, -min_score, -max_score, -year, -geoname, -PPI) %>%
   distinct() %>%
-  mutate(color = ifelse(pct_diff > 0, "positive", "negative"))
+  mutate(color = ifelse(pct_diff > 0, "positive", "negative")) 
 
 
 
+CHART_PPI.df <- CHART_PPI.df[order(CHART_PPI.df$pct_diff), ]
 
 
-pCHART_PPI <- ggplot(CHART_PPI.df, aes(x = pct_diff, y = reorder(variablename, pct_diff), fill = color)) +
-  geom_bar(stat = "identity") +
-  geom_text(aes(label = scales::percent(pct_diff)), hjust = -0.2, size = 3) +
-  scale_fill_manual(values = c("positive" = "red", "negative" = "lightblue"), guide = FALSE) + 
-  scale_x_continuous(labels = scales::percent_format(prefix = "", big.mark = ",")) 
+CHART_PPI.df <- CHART_PPI.df %>%
+  mutate(variablename = factor(variablename, levels = sort(unique(variablename)))) %>%
+  mutate(pct = abs(pct_diff))
+
+
+CHART_PPI.df <- CHART_PPI.df %>%
+  mutate(variablename = factor(variablename, levels = variablename[order(pct_diff)]))
+
+pCHART_PPI = ggplot(data=CHART_PPI.df, aes(x=variablename, y= pct, fill=color)) + 
+  geom_bar(position=position_dodge(width=0.9), stat='identity') +
+  scale_fill_manual(values=c("positive"="red", "negative"="lightblue")) +
+  scale_y_continuous(labels=scales::percent) +
+  coord_flip()
 
 
 
-
-pCHART_PPI <- f_ThemeTraining(plot = pCHART_PPI, 
-                                     chart_info = CHART_PPI, 
-                                     plottitle = "", 
-                                     xaxis = "", 
-                                     yaxis = "Include", 
-                                     xgridline = "Include", 
-                                     ygridline = "") +
-  theme(legend.position = "none")
+pCHART_PPI <- f_ThemeTraining(
+  plot = pCHART_PPI, 
+  chart_info = CHART_PPI, 
+  plottitle = "include", 
+  xaxis = "Include", 
+  yaxis = "Include", 
+  xgridline = "Include", 
+  ygridline = "Include"
+)
 
 
 

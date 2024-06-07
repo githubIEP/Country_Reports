@@ -1,6 +1,25 @@
+#################################################################
+##      Creating the GPI, PPI, GTI Ranks for Burkina Faso      ##
+#################################################################
 
-library(iepg)
 
+data_frames <- list(
+  GTI, PPI
+)
+
+Indicators.df <- GPI
+
+for(df in data_frames) {
+  Indicators.df <- Indicators.df %>% left_join(df, by = "geoname")
+}
+
+Indicators.df <- Indicators.df %>%
+  dplyr::select(-c(`year`, `year.y`, `year.x`))
+
+
+##################################################################
+##                Creating PPI Pilars data frame                ##
+##################################################################
 
 PPI1 <- iepg_search("PPI 2023 Report") %>%
   dplyr::filter(variablename == "Acceptance of the Rights of Others") %>%
@@ -83,11 +102,19 @@ PPI8 <- iepg_search("PPI 2023 Report") %>%
   dplyr::select(c(`geoname`, `year`, `value`)) %>%
   rename(`Good Relations with Neighbours` = `value`)
 
+PPI9 <- iepg_search("PPI 2023 Report") %>%
+  dplyr::filter(variablename == "High Levels of Human Capital") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(geoname == COUNTRY_NAME) %>%
+  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  rename(`High Levels of Human Capital` = `value`)
 
 
 # List of data frames to join
 data_frames <- list(
-  PPI2, PPI3, PPI4, PPI5, PPI6, PPI7, PPI8
+  PPI2, PPI3, PPI4, PPI5, PPI6, PPI7, PPI8, PPI9
 )
 
 # Perform left joins in a loop
@@ -97,6 +124,6 @@ for(df in data_frames) {
   PPI_pillars.df <- PPI_pillars.df %>% left_join(df)
 }
 
-rm(PPI1,PPI2, PPI3, PPI4, PPI5, PPI6, PPI7, PPI8)
+rm(PPI1,PPI2, PPI3, PPI4, PPI5, PPI6, PPI7, PPI8, PPI9)
 
 rio::export(PPI_pillars.df, "04_outputs/PPI_Pillars.xlsx")
