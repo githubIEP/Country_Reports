@@ -11,5 +11,3 @@ ETR <- iepg_search("ETR 2023") %>%
   rename(`ETR` = value) %>%
   mutate(geocode = GEOCODE) %>%
   distinct()
-
-

@@ -9,7 +9,7 @@ GPI_REGION <- iepg_search("GPI 2023 Report") %>%
   dplyr::select(c('geocode', 'value')) %>%
   arrange(value = value) %>%
   rename(`overall score` = value) %>%
-  mutate(`Regional Rank` = rank(desc(`overall score`))) %>%
+  mutate(`Regional Rank` = rank(`overall score`)) %>%
   dplyr::select(`geocode`, `Regional Rank`) %>%
   subset(geocode == GEOCODE)
 

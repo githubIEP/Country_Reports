@@ -126,11 +126,6 @@ PPI_Sentence.df <- PPI_Sentence.df %>%
 
 
 
-
-
-
-
-
 # Assume you have a data frame named df with columns 'year', 'country_name', 'change_in_peacefulness'
 
 # Function to generate the text

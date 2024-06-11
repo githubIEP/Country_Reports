@@ -133,3 +133,64 @@ get_region <- function(geocode) {
     return(region)
   }
 }
+
+
+# Creating ETR bands ================================================================================
+
+
+add_food_insecurity_band <- function(df) {
+  df <- df %>%
+    mutate(`Food_Insecurity` = case_when(
+      `Food Insecurity` == 1 ~ "very low",
+      `Food Insecurity` == 2 ~ "low",
+      `Food Insecurity` == 3 ~ "medium",
+      `Food Insecurity` == 4 ~ "high",
+      `Food Insecurity` == 5 ~ "severe",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+
+add_water_risk_band <- function(df) {
+  df <- df %>%
+    mutate(`Water_Risk` = case_when(
+      `Water Risk` == 1 ~ "very low risk",
+      `Water Risk` == 2 ~ "low risk",
+      `Water Risk` == 3 ~ "medium",
+      `Water Risk` == 4 ~ "high risk",
+      `Water Risk` == 5 ~ "severe risk",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+add_natural_hazard_exposure_band <- function(df) {
+  df <- df %>%
+    mutate(`Natural_Hazard_Exposure` = case_when(
+      `Natural Hazard Exposure` == 1 ~ "very low",
+      `Natural Hazard Exposure` == 2 ~ "low",
+      `Natural Hazard Exposure` == 3 ~ "medium",
+      `Natural Hazard Exposure` == 4 ~ "high",
+      `Natural Hazard Exposure` == 5 ~ "severe",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+
+add_demographic_pressure_band <- function(df) {
+  df <- df %>%
+    mutate(`Demographic_pressure` = case_when(
+      `Demographic Pressure` == 1 ~ "very low",
+      `Demographic Pressure` == 2 ~ "low",
+      `Demographic Pressure` == 3 ~ "medium",
+      `Demographic Pressure` == 4 ~ "high",
+      `Demographic Pressure` == 5 ~ "severe",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+
+
