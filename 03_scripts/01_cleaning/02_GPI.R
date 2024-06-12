@@ -7,12 +7,9 @@ GPI <- iepg_search("GPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geocode == GEOCODE) %>%
   dplyr::filter(year == max(year)) %>%
-  dplyr::select(c(`geocode`, `year`, `value`)) %>%
-  dplyr::rename(GPI = `value`)
-
-
-
+  mutate(`GPI Rank` = rank(value)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `GPI Rank`))
 
 

@@ -6,4 +6,4 @@ GTI <- iepg_search("GTI rank") %>%
   dplyr::filter(geocode == GEOCODE) %>%
   dplyr::filter(year == max(year)) %>%
   dplyr::select(c(`geocode`, `year`, `value`)) %>%
-  dplyr::rename(GTI = `value`)
+  dplyr::rename(`GTI Rank` = `value`)

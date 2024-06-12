@@ -8,6 +8,7 @@ ETR_domain1.df <- iepg_search("ETR 2023") %>%
   group_by(geocode) %>%
   summarise(value = max(value)) %>%
   dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
   rename(`Water Risk` = value) %>%
   mutate(geocode = GEOCODE) %>%
   distinct()
@@ -20,6 +21,7 @@ ETR_domain2.df <- iepg_search("ETR 2023") %>%
   group_by(geocode) %>%
   summarise(value = max(value)) %>%
   dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
   rename(`Food Security` = value) %>%
   mutate(geocode = GEOCODE) %>%
   distinct()
@@ -47,6 +49,7 @@ ETR_domain4.df <- iepg_search("ETR 2023") %>%
   group_by(geocode) %>%
   summarise(value = max(value)) %>%
   dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
   rename(`Population Increase to 2050` = value) %>%
   mutate(geocode = GEOCODE) %>%
   distinct()
@@ -81,11 +84,11 @@ generate_text <- function(row) {
   
   # Construct the text
   text <- paste("According to the latest edition of the Ecological Threat Report,", COUNTRY_NAME, "had a demographic pressure score of", row["Demographic Pressure"], 
-                ".", "This means that", COUNTRY_NAME, "is at", row["Demographic_pressure"], "risk of population increases by 2050.",
+                ".", "This means that", COUNTRY_NAME, "is at", row["Demographic_pressure"], "of population increases by 2050.",
                 COUNTRY_NAME, "is also at", row["Water_Risk"], "of water insecurity, having a maximum score of", row["Water Risk"], ".",
                 COUNTRY_NAME, "has a maximum food insecurity score of", row["Food Insecurity"], ".", "This means the country is in",
-                row["Food_Insecurity"], "risk of food insecurity. Lastly,", COUNTRY_NAME, "has a maximum natural hazard exposure score of",
-                row["Natural Hazard Exposure"], ".", "This means the country is at", row["Natural_Hazard_Exposure"], "risk of natural hazard exposure."
+                row["Food_Insecurity"], "of food insecurity. Lastly,", COUNTRY_NAME, "has a maximum natural hazard exposure score of",
+                row["Natural Hazard Exposure"], ".", "This means the country is at", row["Natural_Hazard_Exposure"], "of natural hazard exposure."
   )
   
   return(text)

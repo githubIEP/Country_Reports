@@ -13,9 +13,9 @@ f_LibraryLoader(tidyverse,
 
 
 # Export Data
-plot_list <- c("pCHART_PPI", "pCHART_ACLED")
+plot_list <- c("pCHART_PPI", "pCHART_ACLED", "pMAP_ETR")
 
-selected_columns <- c("geocode", "GPI", "GTI", "PPI", "ETR")
+selected_columns <- c("geocode", "GPI Rank", "GTI Rank", "PPI Rank", "ETR")
 
 # Write selected columns to an Excel file
 write_selected_columns_to_excel(Indicators.df, selected_columns, "04_outputs/country_report.xlsx")

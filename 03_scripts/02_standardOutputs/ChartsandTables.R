@@ -19,6 +19,11 @@ CHART_ACLED = c(title = "5,224 deaths from terrorism",
               sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
               type = "Chart", position = "Normal")
 
+MAP_ETR = c(title = "ETR Map by Natural Hazard Exposure",
+            sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
+            type = "Map", position = "Normal")
+
+
 
 ### --- Loading Data
 
@@ -112,3 +117,48 @@ pCHART_ACLED <- f_ThemeTraining(
 
 
 pCHART_ACLED
+
+
+# 3. Water Risk Map of Country =====================================================
+
+
+ETR_Map.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Natural Hazard Exposure (BANDED)") %>%
+  group_by(geocode) %>%
+  dplyr::filter(year == max(year)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  rename(`Natural Hazard Exposure` = value) %>%
+  rename(`ID_1` = geocode) %>%
+  dplyr::select(c(`ID_1`, `Natural Hazard Exposure`))
+
+ETR_Map.df <- add_natural_hazard_exposure_band(ETR_Map.df)
+
+shp = iep_get_shapefile("level1") %>%
+  dplyr::filter(str_starts(ID_1, GEOCODE))
+  
+shp <- shp %>%
+  left_join(ETR_Map.df)
+
+shp$color <- category_to_color(shp$Natural_Hazard_Exposure)
+
+pMAP_ETR <- ggplot(data = shp) +
+  geom_sf(aes(fill = color)) +
+  theme_minimal() +
+  scale_fill_identity()  
+  
+
+pMAP_ETR <- f_ThemeTraining(
+  plot = pMAP_ETR, 
+  chart_info = MAP_ETR, 
+  plottitle = "include", 
+  xaxis = "Include", 
+  yaxis = "Include", 
+  xgridline = "Include", 
+  ygridline = "Include"
+)
+
+
+pMAP_ETR

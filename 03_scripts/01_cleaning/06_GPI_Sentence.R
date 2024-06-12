@@ -85,56 +85,58 @@ GPI_Sentence.df <- GPI_Sentence.df %>%
 GPI_Sentence.df <- GPI_Sentence.df %>%
   dplyr::filter(year == max(year))
 
-# Assume you have a data frame named df with columns 'year', 'country_name', 'change_in_peacefulness'
 
 # Function to generate the text
 generate_text <- function(row) {
-  # Identify the column with the maximum value
-  columns <- c("ongoing conflict change", "militarisation change", "safety and security change")
-  max_col <- columns[which.max(row[columns])]
-  
-  # Special case handling
-  if (max_col == "safety and security change") {
-    description <- paste("safety and security")
-  } else if (max_col == "militarisation change") {
-    description <- paste("militarisation")
-  } else if (max_col == "ongoing conflict change") {
-    description <- paste("ongoing conflict")
+  # Check if "overall score" is not missing
+  if (!is.na(row["overall change"])) {
+    # Identify the column with the maximum value
+    columns <- c("ongoing conflict change", "militarisation change", "safety and security change")
+    max_col <- columns[which.max(row[columns])]
+    min_col <- columns[which.min(row[columns])]
+    
+    # Special case handling
+    if (max_col == "safety and security change") {
+      description <- paste("safety and security change")
+    } else if (max_col == "militarisation change") {
+      description <- paste("militarisation")
+    } else if (max_col == "ongoing conflict change") {
+      description <- paste("ongoing conflict")
+    } else {
+      description <- max_col
+    }
+    
+    if (min_col == "safety and security change") {
+      description1 <- paste("safety and security change")
+    } else if (min_col == "militarisation change") {
+      description1 <- paste("militarisation")
+    } else if (min_col == "ongoing conflict change") {
+      description1 <- paste("ongoing conflict")
+    } else {
+      description1 <- min_col
+    }
+    
+    # Construct the text
+    if (row["overall change"] > 0) {
+      text <- paste("In", row["year"], ",", COUNTRY_NAME, "had an overall score of", row["overall score"], "in the GLOBAL PEACE INDEX.",
+                    "This represents a deterioration from the previous year. It is currently ranked", row["Regional Rank"], "th in the region.",  
+                    "This was driven by a deterioration in the", description, "domian")
+    } else {
+      text <- paste("In", row["year"], ",", COUNTRY_NAME, "had an overall score of", row["overall score"], "in the GLOBAL PEACE INDEX.",
+                    "This represents an improvement from the previous year. It is currently ranked", row["Regional Rank"], "th in the region.",  
+                    "This was driven by an improvement in the", description1, "domain")
+    }
+    
+    return(text)
   } else {
-    description <- max_col
+    return("Error: 'overall score' is missing.")
   }
-  
-  # Construct the text
-  text <- paste("In", row["year"], ",", COUNTRY_NAME, "had an overall score of", row["overall score"], "in the GLOABL PEACE INDEX.",
-                "This represents a", ifelse(row["overall change"] > 0, "deterioration", "improvement"),
-                "from the previous year. It is currently ranked", row["Regional Rank"], "th in the region.",  
-                "This was driven by a", 
-                ifelse(
-                  row[max_col] > 0, "deterioration in the", "improvement in the"), description, "domain.")
-  
-  return(text)
 }
-
 
 
 
 # Apply the function to each row of the data frame
 GPI_Sentence.df$text <- apply(GPI_Sentence.df, 1, generate_text)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
