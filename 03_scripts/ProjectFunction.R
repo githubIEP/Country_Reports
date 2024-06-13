@@ -216,7 +216,7 @@ category_to_color <- function(category) {
   color_map <- c(
     "very low risk" = "darkgreen",
     "low risk" = "green",
-    "medium" = "yellow",
+    "medium risk" = "yellow",
     "high risk" = "orange",
     "severe risk" = "red"
   )

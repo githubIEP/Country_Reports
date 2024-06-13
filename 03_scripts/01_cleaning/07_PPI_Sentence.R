@@ -194,7 +194,7 @@ generate_text <- function(row) {
     } else if (min_col == "Low Levels of Corruption change") {
       description1 <- paste("Low Levels of Corruption")
     } else if (min_col == "Good Relations with Neighbours change") {
-      description <- paste("Good Relations with Neighbours")
+      description1 <- paste("Good Relations with Neighbours")
     } else if (min_col == "High Levels of Human Capital change") {
       description1 <- paste("High Levels of Human Capital")
     } else {

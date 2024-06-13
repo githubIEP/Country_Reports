@@ -136,15 +136,15 @@ ETR_Map.df <- iepg_search("ETR 2023") %>%
 
 ETR_Map.df <- add_natural_hazard_exposure_band(ETR_Map.df)
 
-shp = iep_get_shapefile("level1") %>%
+shp.df = iep_get_shapefile("level1") %>%
   dplyr::filter(str_starts(ID_1, GEOCODE))
   
-shp <- shp %>%
+shp.df <- shp.df %>%
   left_join(ETR_Map.df)
 
-shp$color <- category_to_color(shp$Natural_Hazard_Exposure)
+shp.df$color <- category_to_color(shp.df$Natural_Hazard_Exposure)
 
-pMAP_ETR <- ggplot(data = shp) +
+pMAP_ETR <- ggplot(data = shp.df) +
   geom_sf(aes(fill = color)) +
   theme_minimal() +
   scale_fill_identity()  

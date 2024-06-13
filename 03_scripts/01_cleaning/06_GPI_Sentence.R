@@ -97,7 +97,7 @@ generate_text <- function(row) {
     
     # Special case handling
     if (max_col == "safety and security change") {
-      description <- paste("safety and security change")
+      description <- paste("safety and security")
     } else if (max_col == "militarisation change") {
       description <- paste("militarisation")
     } else if (max_col == "ongoing conflict change") {
@@ -107,7 +107,7 @@ generate_text <- function(row) {
     }
     
     if (min_col == "safety and security change") {
-      description1 <- paste("safety and security change")
+      description1 <- paste("safety and security")
     } else if (min_col == "militarisation change") {
       description1 <- paste("militarisation")
     } else if (min_col == "ongoing conflict change") {
