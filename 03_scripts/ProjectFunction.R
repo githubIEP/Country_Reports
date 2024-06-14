@@ -150,6 +150,81 @@ get_region <- function(geocode) {
 }
 
 
+# PPI Chart info  ===============================================================================
+
+count_negative_values <- function(df, column_name, exclude_row) {
+
+    if (!is.character(column_name)) {
+    stop("column_name must be a string.")
+  }
+  
+  
+  if (!column_name %in% names(df)) {
+    stop("The specified column does not exist in the data frame.")
+  }
+  
+  filtered_df <- df[df$variablename != exclude_row, ]
+
+  column_values <- filtered_df[[column_name]]
+  
+  negative_count <- sum(column_values < 0, na.rm = TRUE)
+  
+  total_count <- length(column_values)
+  
+  positive_count <- total_count - negative_count
+  
+  summary_statement <- paste(
+    "Since 2013,",
+    negative_count,
+    "out of the",
+    total_count,
+    "pillars improved and the other",
+    positive_count,
+    "deteriorated."
+  )
+  
+  return(summary_statement)
+}
+
+
+
+get_overall_score <- function(df, variablename, column_name) {
+  if (!is.character(column_name)) {
+    stop("column_name must be a string.")
+  }
+  
+  overall_row <- df[df$variablename == variablename, ]
+  
+  if (nrow(overall_row) == 0) {
+    stop("The specified row does not exist in the data frame.")
+  }
+  if (!column_name %in% names(overall_row)) {
+    stop("The specified column does not exist in the data frame.")
+  }
+  
+  percentage_value <- round(overall_row[[column_name]] * 100)
+  
+  overall_score_statement <- paste("The overall PPI deteriorated by", percentage_value, "% since 2013.")
+  
+  return(overall_score_statement)
+}
+
+
+# ACLED Title Info ================================================================================
+
+# Function to generate the title string
+generate_title <- function(df, value_column) {
+  latest_value <- tail(df[[value_column]], n = 1)
+  
+  formatted_value <- format(latest_value, big.mark = ",")
+  
+  title_string <- paste(formatted_value, "deaths from terrorism")
+  
+  return(title_string)
+}
+
+
+
 # Creating ETR bands ================================================================================
 
 

@@ -9,15 +9,28 @@ library(ggrepel)
 ### --- List of Standard Charts and Tables
 
 # Chart Pie for Burkina Faso's Positive Peace Pillars ====================================================
-CHART_PPI = c(title = "Change in Pillars of Peace 2013 - 2022",
-                  sheet = "Since 2013, four out of the eight pillars deteriorated more than the other four improved. 
-              The overall PPI deteriorated by 2% since 2013.", source = "IEP Calculations", xtext = "", ytext = "",
-                  type = "Chart", position = "Normal")
+
+CHART_PPI <- list( title = "Change in Pillars of Peace 2013 - 2022",
+  sheet = "",  
+  source = "IEP Calculations",
+  xtext = "",
+  ytext = "",
+  type = "Chart",
+  position = "Normal"
+)
 
 
-CHART_ACLED = c(title = "5,224 deaths from terrorism",
-              sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
-              type = "Chart", position = "Normal")
+CHART_ACLED <- list(
+  title = "",
+  sheet = "", 
+  source = "IEP Calculations", 
+  xtext = "", 
+  ytext = "",
+  type = "Chart", 
+  position = "Normal"
+)
+
+
 
 MAP_ETR = c(title = "ETR Map by Natural Hazard Exposure",
             sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
@@ -25,7 +38,7 @@ MAP_ETR = c(title = "ETR Map by Natural Hazard Exposure",
 
 
 
-### --- Loading Data
+### --- Loading Data -----------------------------------------------------------------
 
 PPI_df <- rio::import("04_outputs/PPI_pillars.xlsx")
 
@@ -51,8 +64,6 @@ CHART_PPI.df <- CHART_PPI.df %>%
   distinct() %>%
   mutate(color = ifelse(pct_diff > 0, "deterioration", "improvement")) 
 
-
-
 CHART_PPI.df <- CHART_PPI.df[order(CHART_PPI.df$pct_diff), ]
 
 
@@ -60,16 +71,19 @@ CHART_PPI.df <- CHART_PPI.df %>%
   mutate(variablename = factor(variablename, levels = sort(unique(variablename)))) %>%
   mutate(pct = abs(pct_diff))
 
-
 CHART_PPI.df <- CHART_PPI.df %>%
   mutate(variablename = factor(variablename, levels = variablename[order(pct_diff)]))
+
+summary <- count_negative_values(CHART_PPI.df, "pct_diff", "PPI Overall Score")
+overall_score <- get_overall_score(CHART_PPI.df, "PPI Overall Score", "pct_diff")
+CHART_PPI$sheet <- paste(summary, overall_score)
+
 
 pCHART_PPI = ggplot(data=CHART_PPI.df, aes(x=variablename, y= pct, fill=color)) + 
   geom_bar(position=position_dodge(width=0.9), stat='identity') +
   scale_fill_manual(values=c("deterioration"="red", "improvement"="lightblue")) +
   scale_y_continuous(labels=scales::percent) +
   coord_flip()
-
 
 
 pCHART_PPI <- f_ThemeTraining(
@@ -84,6 +98,10 @@ pCHART_PPI <- f_ThemeTraining(
 
 
 pCHART_PPI
+
+
+
+
 
 # 2. ACLED CHART ==============================================================
 
@@ -104,6 +122,12 @@ pCHART_ACLED <- ggplot(data = CHART_ACLED.df, aes(x = year, y = fatalities)) +
   scale_x_continuous(breaks = c(min(CHART_ACLED.df$year), max(CHART_ACLED.df$year))) 
   
   
+ACLED_Title <- generate_title(CHART_ACLED.df, "fatalities")
+
+# Assign the generated title string to CHART_ACLED
+
+CHART_ACLED$title <- ACLED_Title
+
 
 pCHART_ACLED <- f_ThemeTraining(
   plot = pCHART_ACLED, 
