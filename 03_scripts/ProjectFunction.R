@@ -244,3 +244,63 @@ category_to_color <- function(category) {
   
   return(colors)
 }
+
+
+# Creating ETR bands ================================================================================
+
+
+add_food_insecurity_band <- function(df) {
+  df <- df %>%
+    mutate(`Food_Insecurity` = case_when(
+      `Food Insecurity` == 1 ~ "very low risk",
+      `Food Insecurity` == 2 ~ "low risk",
+      `Food Insecurity` == 3 ~ "medium risk",
+      `Food Insecurity` == 4 ~ "high risk",
+      `Food Insecurity` == 5 ~ "severe risk",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+
+add_water_risk_band <- function(df) {
+  df <- df %>%
+    mutate(`Water_Risk` = case_when(
+      `Water Risk` == 1 ~ "very low risk",
+      `Water Risk` == 2 ~ "low risk",
+      `Water Risk` == 3 ~ "medium risk",
+      `Water Risk` == 4 ~ "high risk",
+      `Water Risk` == 5 ~ "severe risk",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+add_natural_hazard_exposure_band <- function(df) {
+  df <- df %>%
+    mutate(`Natural_Hazard_Exposure` = case_when(
+      `Natural Hazard Exposure` == 1 ~ "very low risk",
+      `Natural Hazard Exposure` == 2 ~ "low risk",
+      `Natural Hazard Exposure` == 3 ~ "medium risk",
+      `Natural Hazard Exposure` == 4 ~ "high risk",
+      `Natural Hazard Exposure` == 5 ~ "severe risk",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+
+add_demographic_pressure_band <- function(df) {
+  df <- df %>%
+    mutate(`Demographic_pressure` = case_when(
+      `Demographic Pressure` == 1 ~ "very low risk",
+      `Demographic Pressure` == 2 ~ "low risk",
+      `Demographic Pressure` == 3 ~ "medium risk",
+      `Demographic Pressure` == 4 ~ "high risk",
+      `Demographic Pressure` == 5 ~ "severe risk",
+      TRUE ~ NA_character_  # Handle any unexpected values
+    ))
+  return(df)
+}
+
+
