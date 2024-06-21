@@ -32,7 +32,7 @@ CHART_ACLED <- list(
 
 
 
-MAP_ETR = c(title = "ETR Map by Natural Hazard Exposure",
+MAP_BATTLE = c(title = "Deaths by Battles",
             sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
             type = "Map", position = "Normal")
 
@@ -143,40 +143,55 @@ pCHART_ACLED <- f_ThemeTraining(
 pCHART_ACLED
 
 
-# 3. Water Risk Map of Country =====================================================
+# 3. Battle Deaths Map of Country =====================================================
 
-
-ETR_Map.df <- iepg_search("ETR 2023") %>%
-  pull(muid) %>%
-  iepg_get() %>%
+Battle_deaths_df <- iepg_acled() %>%
+  dplyr::filter(event_type == "Battles") %>%
   ungroup() %>%
-  dplyr::filter(variablename == "Natural Hazard Exposure (BANDED)") %>%
-  group_by(geocode) %>%
-  dplyr::filter(year == max(year)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::filter(year == LATEST_YEAR) %>%
+  dplyr::select(c(`geocode`, `fatalities`, `longitude`, `latitude`)) %>%
+  iepsqlite::latlong2shp("level1") %>%
+  group_by(ID) %>%
+  summarise(fatalities = sum(fatalities)) %>% 
+  dplyr::filter(stringr::str_starts(ID, GEOCODE)) %>%
+  rename(geooriginal = ID)
+
+
+shp.df <- iepg_get_gadm("level1") %>%
   dplyr::filter(str_starts(geocode, GEOCODE)) %>%
-  rename(`Natural Hazard Exposure` = value) %>%
-  rename(`ID_1` = geocode) %>%
-  dplyr::select(c(`ID_1`, `Natural Hazard Exposure`))
+  dplyr::select(-c(`pop_year`))
 
-ETR_Map.df <- add_natural_hazard_exposure_band(ETR_Map.df)
-
-shp.df = iep_get_shapefile("level1") %>%
-  dplyr::filter(str_starts(ID_1, GEOCODE))
-  
 shp.df <- shp.df %>%
-  left_join(ETR_Map.df)
+  left_join(Battle_deaths_df) %>%
+  mutate(fatalities = coalesce(fatalities, 0))
 
-shp.df$color <- category_to_color(shp.df$Natural_Hazard_Exposure)
 
-pMAP_ETR <- ggplot(data = shp.df) +
+shp.df$band <- ifelse(shp.df$fatalities >= 0 & shp.df$fatalities < 25, "0 - 25",
+                      ifelse(shp.df$fatalities >= 25 & shp.df$fatalities < 50, "25 - 50",
+                             ifelse(shp.df$fatalities >= 50 & shp.df$fatalities < 75, "50 - 75",
+                                    ifelse(shp.df$fatalities >= 75 & shp.df$fatalities < 100, "75 - 100",
+                                           ifelse(shp.df$fatalities > 100, "Over 100", NA)))))
+
+
+shp.df$band = factor(shp.df$band, c("0 - 25", "25 - 50", "50 - 75", "75 - 100", "Over 100"), ordered=T)
+
+
+shp.df$color <- category_to_color(shp.df$band)
+
+
+pMAP <- ggplot(data = shp.df) +
   geom_sf(aes(fill = color)) +
   theme_minimal() +
-  scale_fill_identity()  
-  
+  scale_fill_manual(values = shp.df$color, 
+                    breaks = shp.df$color, 
+                    labels = shp.df$band) +
+  labs(fill = "Deaths")
 
-pMAP_ETR <- f_ThemeTraining(
-  plot = pMAP_ETR, 
-  chart_info = MAP_ETR, 
+
+pMAP<- f_ThemeTraining(
+  plot = pMAP, 
+  chart_info = MAP_BATTLE, 
   plottitle = "include", 
   xaxis = "Include", 
   yaxis = "Include", 
@@ -184,5 +199,4 @@ pMAP_ETR <- f_ThemeTraining(
   ygridline = "Include"
 )
 
-
-pMAP_ETR
+pMAP
