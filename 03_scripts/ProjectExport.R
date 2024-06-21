@@ -13,7 +13,7 @@ f_LibraryLoader(tidyverse,
 
 
 # Export Data
-plot_list <- c("pCHART_PPI", "pCHART_ACLED", "pMAP_ETR")
+plot_list <- c("pCHART_PPI", "pCHART_ACLED", "pMAP")
 
 selected_columns <- c("geocode", "GPI Rank", "GTI Rank", "PPI Rank", "ETR")
 
@@ -32,3 +32,4 @@ writeData(existing_wb, sheet = "Sheet1", ETR_Sentence.df$text, startCol = 1, sta
 
 # Save the changes
 saveWorkbook(existing_wb, file = "04_outputs/country_report.xlsx", overwrite = TRUE)
+
