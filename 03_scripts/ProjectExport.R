@@ -29,7 +29,10 @@ existing_wb <- loadWorkbook("04_outputs/country_report.xlsx")
 writeData(existing_wb, sheet = "Sheet1", GPI_Sentence.df$text, startCol = 1, startRow = 4, colNames = FALSE)
 writeData(existing_wb, sheet = "Sheet1", PPI_Sentence.df$text, startCol = 1, startRow = 6, colNames = FALSE)
 writeData(existing_wb, sheet = "Sheet1", ETR_Sentence.df$text, startCol = 1, startRow = 8, colNames = FALSE)
-
+writeData(existing_wb, sheet = "Sheet1", ETR_Food.df, startCol = 1, startRow = 10, colNames = TRUE)
+writeData(existing_wb, sheet = "Sheet1", ETR_Water.df, startCol = 2, startRow = 10, colNames = TRUE)
+writeData(existing_wb, sheet = "Sheet1", ETR_Natural.df, startCol = 1, startRow = 12, colNames = TRUE)
+writeData(existing_wb, sheet = "Sheet1", ETR_Demographic.df, startCol = 2, startRow = 12, colNames = TRUE)
 # Save the changes
 saveWorkbook(existing_wb, file = "04_outputs/country_report.xlsx", overwrite = TRUE)
 
