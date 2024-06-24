@@ -195,8 +195,8 @@ pMAP<- f_ThemeTraining(
   plottitle = "include", 
   xaxis = "Include", 
   yaxis = "Include", 
-  xgridline = "Include", 
-  ygridline = "Include"
+  xgridline = "", 
+  ygridline = ""
 )
 
 pMAP

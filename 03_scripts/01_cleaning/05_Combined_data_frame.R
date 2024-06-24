@@ -131,3 +131,71 @@ for(df in data_frames) {
 rm(PPI1,PPI2, PPI3, PPI4, PPI5, PPI6, PPI7, PPI8, PPI9)
 
 rio::export(PPI_pillars.df, "04_outputs/PPI_Pillars.xlsx")
+
+
+##################################################################
+##                Creating ETR Matrix               ##
+##################################################################
+
+
+ETR_Food.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Food Security (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Food Security` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() %>%
+  dplyr::select(-c(`geocode`))
+
+
+ETR_Water.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Water Risk (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Water Risk` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() %>%
+  dplyr::select(-c(`geocode`))
+
+
+ETR_Natural.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Food Security (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Natural Hazard Exposure` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() %>%
+  dplyr::select(-c(`geocode`))
+
+
+ETR_Demographic.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Population Increase to 2050 (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Demographic Pressure` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() %>%
+  dplyr::select(-c(`geocode`))
+
+
+

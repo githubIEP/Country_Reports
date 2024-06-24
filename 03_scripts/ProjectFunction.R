@@ -232,11 +232,11 @@ generate_title <- function(df, value_column) {
 category_to_color <- function(category) {
   # Create a named vector for mapping categories to colors
   color_map <- c(
-    "0 - 25" = "darkgreen",
-    "25 - 50" = "green",
-    "50 - 75" = "yellow",
-    "75 - 100" = "orange",
-    "Over 100" = "red"
+    "0 - 25" = "#FF0066",
+    "25 - 50" = "#FF0033",
+    "50 - 75" = "#FF0000",
+    "75 - 100" = "#CC0000",
+    "Over 100" = "#990000"
   )
   
   # Match the category with the color map

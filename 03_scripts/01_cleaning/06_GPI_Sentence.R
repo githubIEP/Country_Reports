@@ -57,9 +57,6 @@ GPI_domain3 <- iepg_search("GPI 2023 Report") %>%
 
 
 
-
-
-
 data_frames <- list(
   GPI_domain1, GPI_domain2, GPI_domain3, GPI_REGION
 )
@@ -71,13 +68,12 @@ for(df in data_frames) {
 }
 
 
-
-
 GPI_Sentence.df <- GPI_Sentence.df %>%
   mutate(`overall change` = `overall score` - lag(`overall score`)) %>%
   mutate(`ongoing conflict change` = `ongoing conflict` - lag(`ongoing conflict`)) %>%
   mutate(`safety and security change` = `safety and security` - lag(`safety and security`)) %>%
   mutate(`militarisation change` = `militarisation` - lag(`militarisation`)) %>%
+  mutate(`five year change` = `overall score` - lag(`overall score`, 5)) %>%
   mutate(`overall score` = round(`overall score`))
 
 
@@ -120,11 +116,13 @@ generate_text <- function(row) {
     if (row["overall change"] > 0) {
       text <- paste("In", row["year"], ",", COUNTRY_NAME, "had an overall score of", row["overall score"], "in the GLOBAL PEACE INDEX.",
                     "This represents a deterioration from the previous year. It is currently ranked", row["Regional Rank"], "th in the region.",  
-                    "This was driven by a deterioration in the", description, "domian")
+                    "This was driven by a deterioration in the", description, "domian. In the last five years,", COUNTRY_NAME, ", has seen an overall",
+                    ifelse(row["five year change"] > 0, "deterioration", "improvement"), "in Global Peace.")
     } else {
       text <- paste("In", row["year"], ",", COUNTRY_NAME, "had an overall score of", row["overall score"], "in the GLOBAL PEACE INDEX.",
                     "This represents an improvement from the previous year. It is currently ranked", row["Regional Rank"], "th in the region.",  
-                    "This was driven by an improvement in the", description1, "domain")
+                    "This was driven by an improvement in the", description1, "domain. In the last five years", COUNTRY_NAME, ", has seen an overall",
+                    ifelse(row["five year change"] > 0, "deterioration", "improvement"), "in Global Peace.")
     }
     
     return(text)
@@ -132,7 +130,6 @@ generate_text <- function(row) {
     return("Error: 'overall score' is missing.")
   }
 }
-
 
 
 # Apply the function to each row of the data frame

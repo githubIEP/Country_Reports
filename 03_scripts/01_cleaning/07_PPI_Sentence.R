@@ -140,6 +140,7 @@ PPI_Sentence.df <- PPI_Sentence.df %>%
   mutate(`Low Levels of Corruption change` = `Low Levels of Corruption` - lag(`Low Levels of Corruption`)) %>%
   mutate(`Good Relations with Neighbours change` = `Good Relations with Neighbours` - lag(`Good Relations with Neighbours`)) %>%
   mutate(`High Levels of Human Capital change` = `High Levels of Human Capital` - lag(`High Levels of Human Capital`)) %>%
+  mutate(`five year change` = (`PPI Overall Score` - lag(`PPI Overall Score`, 5))) %>%
   mutate(`PPI Overall Score` = round(`PPI Overall Score`))
 
 
@@ -204,11 +205,13 @@ generate_text <- function(row) {
     if (row["overall change"] > 0) {
       text <- paste("In", row["year"], ",", COUNTRY_NAME, "had an overall score of", row["PPI Overall Score"], "in the POSITIVE PEACE REPORT.",
                     "This represents a deterioration from the previous year. It is currently ranked", row["Regional Rank"], "th in the region.",  
-                    "This was driven by a deterioration in the", description, "Pillar.")
+                    "This was driven by a deterioration in the", description, "Pillar. In the last five years", COUNTRY_NAME, "has seen an overall",
+                    ifelse(row["five year change"] > 0, "deterioration", "improvement"), "in Positive Peace.")
     } else {
       text <- paste("In", row["year"], ",", COUNTRY_NAME, "had an overall score of", row["PPI Overall Score"], "in the POSITIVE PEACE REPORT.",
                     "This represents an improvement from the previous year. It is currently ranked", row["Regional Rank"], "th in the region.",  
-                    "This was driven by an improvement in the", description1, "Pillar.")
+                    "This was driven by an improvement in the", description1, "Pillar. In the last five years", COUNTRY_NAME, "has seen an overall",
+                    ifelse(row["five year change"] > 0, "deterioration", "improvement"), "in Positive Peace.")
     }
     
     return(text)
