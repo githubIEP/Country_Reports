@@ -28,7 +28,8 @@ f_LibraryLoader(tidyverse,
                 dplyr,
                 openxlsx,
                 iepg,
-                stringr)
+                stringr,
+                iepsqlite)
 
 
 
