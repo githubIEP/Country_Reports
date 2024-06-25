@@ -37,6 +37,12 @@ MAP_BATTLE = c(title = "Deaths by Battles",
             type = "Map", position = "Normal")
 
 
+MAP_BATTLE = c(title = "Increase in Battle Fatalities since 2018",
+               sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
+               type = "Map", position = "Normal")
+
+
+
 
 ### --- Loading Data -----------------------------------------------------------------
 
@@ -200,3 +206,98 @@ pMAP<- f_ThemeTraining(
 )
 
 pMAP
+
+
+# 3. Battle Deaths Map of Country =====================================================
+
+Battle_deaths_df <- iepg_acled() %>%
+  dplyr::filter(event_type == "Battles") %>%
+  ungroup() %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `fatalities`, `longitude`, `latitude`)) %>%
+  iepsqlite::latlong2shp("level1") %>%
+  dplyr::select(c(`ID`, `year`, `fatalities`)) %>%
+  group_by(ID, year) %>%
+  summarise(fatalities = sum(fatalities)) %>%
+  arrange(ID) %>%
+  dplyr::filter(stringr::str_starts(ID, GEOCODE)) 
+
+
+year_data <- Battle_deaths_df %>%
+  group_by(ID) %>%
+  mutate(
+    min_year = min(year)
+  )
+
+min_year <- max(year_data$min_year)
+
+
+Battle_deaths_df <- Battle_deaths_df %>%
+  dplyr::filter(year > (min_year-1))
+
+
+Battle_deaths_df <- Battle_deaths_df %>%
+  group_by(ID) %>%
+  mutate(
+    min_year = min(year),
+    max_year = max(year),
+    min_score = fatalities[year == min_year],
+    max_score = fatalities[year == max_year],
+    diff = (max_score - min_score)
+  ) %>%
+  ungroup() %>%
+  dplyr::select(c(`ID`, `diff`)) %>%
+  rename(geocode = `ID`) %>%
+  distinct() 
+
+
+shp.df <- iepg_get_gadm("level1") %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::select(-c(`pop_year`))
+
+
+shp.df <- shp.df %>%
+  left_join(Battle_deaths_df) %>%
+  mutate(diff = coalesce(diff, 0))
+  
+
+shp.df$band <- ifelse(shp.df$diff < 0, "Decrease in fatalities",
+                    ifelse(shp.df$diff == 0, "No Increase in fatalities",
+                           ifelse(shp.df$diff > 0 & shp.df$diff <= 50, "Increase in fatalities of less than 50",
+                                  ifelse(shp.df$diff > 50 & shp.df$diff <= 100, "Increase in fatalities between 50 & 100",
+                                         ifelse(shp.df$diff > 100 & shp.df$diff <= 200, "Increase in fatalities between 100 & 200",
+                                                ifelse(shp.df$diff > 200, "Increase in fatalities over 200", NA))))))
+
+
+
+  
+
+shp.df$color <- category_to_color(shp.df$band)
+
+
+pMAP <- ggplot(data = shp.df) +
+  geom_sf(aes(fill = color)) +
+  theme_minimal() +
+  scale_fill_manual(values = shp.df$color, 
+                    breaks = shp.df$color, 
+                    labels = shp.df$band) +
+  labs(fill = "Deaths")
+
+
+pMAP<- f_ThemeTraining(
+  plot = pMAP, 
+  chart_info = MAP_BATTLE, 
+  plottitle = "include", 
+  xaxis = "Include", 
+  yaxis = "Include", 
+  xgridline = "", 
+  ygridline = ""
+)
+
+pMAP
+
+
+
+
+
+

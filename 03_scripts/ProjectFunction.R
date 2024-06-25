@@ -229,21 +229,24 @@ generate_title <- function(df, value_column) {
 # Battle Death Colour function ===============================================================================
 
 
+
 category_to_color <- function(category) {
   # Create a named vector for mapping categories to colors
   color_map <- c(
-    "0 - 25" = "#FF0066",
-    "25 - 50" = "#FF0033",
-    "50 - 75" = "#FF0000",
-    "75 - 100" = "#CC0000",
-    "Over 100" = "#990000"
+    "Decrease in fatalities" = "green",
+    "No Increase in fatalities" = "lightgreen",
+    "Increase in fatalities of less than 50" = "pink",
+    "Increase in fatalities between 50 & 100" = "maroon",
+    "Increase in fatalities between 100 & 200" = "red",
+    "Increase in fatalities over 200" = "darkred"
   )
   
   # Match the category with the color map
   colors <- color_map[category]
   
-  return(colors)
+  return(colors) 
 }
+
 
 
 # Creating ETR bands ================================================================================
