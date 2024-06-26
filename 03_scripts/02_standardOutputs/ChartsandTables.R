@@ -238,7 +238,7 @@ pMAP<- f_ThemeTraining(
 pMAP
 
 
-# 4. Creting ETR Table =======================================================
+# 4. Creating ETR Table =======================================================
 
 
 ETR_Food.df <- iepg_search("ETR 2023") %>%
