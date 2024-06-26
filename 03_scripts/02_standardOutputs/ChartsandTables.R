@@ -233,12 +233,69 @@ pMAP<- f_ThemeTraining(
   yaxis = "Include", 
   xgridline = "", 
   ygridline = ""
-)
+) +
+  theme(panel.grid = element_blank())
 
 pMAP
 
 
+# 4. Creating the Country Stats Table =====================================================
 
+GDP_df <- iepg_search() %>%
+  dplyr::filter(variablename == "GDP per capita (constant 2010 US$)") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::filter(year == max(year)) %>%
+  dplyr::select(c(`geocode`, `value`)) %>%
+  rename(`GDP Per Capita Constant 2010 US$` = value)
+
+
+
+Urban_df <- iepg_search() %>%
+  dplyr::filter(variablename == "Urban population (% of total population)") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::filter(year == max(year)) %>%
+  dplyr::select(c(`geocode`, `value`)) %>%
+  rename(`Urbanization Rate` = value)
+
+
+
+Population_df <- iepg_search() %>%
+  dplyr::filter(source == "GPI 2023 Report") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::filter(year == max(year)) %>%
+  dplyr::select(c(`geocode`, `population`)) %>%
+  rename(`Population` = population) %>%
+  distinct() 
+
+
+
+data_frames <- list(
+  Urban_df, Population_df
+)
+
+TABLE_df <- GDP_df
+
+for(df in data_frames) {
+  TABLE_df <- TABLE_df %>% left_join(df, by = "geocode")
+}
+
+
+TABLE_df <- TABLE_df %>%
+  dplyr::select(-c(`geocode`))
+
+TABLE_df <- TABLE_df %>%
+  pivot_longer(cols = c(`GDP Per Capita Constant 2010 US$`, `Urbanization Rate`, `Population`), 
+               names_to = "Country Stats",
+               values_to = "Value")
 
 
 

@@ -33,6 +33,7 @@ writeData(existing_wb, sheet = "Sheet1", ETR_Food.df, startCol = 1, startRow = 1
 writeData(existing_wb, sheet = "Sheet1", ETR_Water.df, startCol = 2, startRow = 10, colNames = TRUE)
 writeData(existing_wb, sheet = "Sheet1", ETR_Natural.df, startCol = 1, startRow = 12, colNames = TRUE)
 writeData(existing_wb, sheet = "Sheet1", ETR_Demographic.df, startCol = 2, startRow = 12, colNames = TRUE)
+writeDataTable(existing_wb, "Sheet1", x = TABLE_df, tableStyle = "TableStyleMedium1", withFilter = FALSE, startRow = 18, startCol = 1)
 # Save the changes
 saveWorkbook(existing_wb, file = "04_outputs/country_report.xlsx", overwrite = TRUE)
 
