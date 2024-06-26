@@ -239,6 +239,86 @@ pMAP<- f_ThemeTraining(
 pMAP
 
 
+# 3. Creting ETR Table =======================================================
+
+
+ETR_Food.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Food Security (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Food Security` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() 
+
+
+ETR_Water.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Water Risk (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Water Risk` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() 
+
+
+ETR_Natural.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Food Security (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Natural Hazard Exposure` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() 
+
+
+ETR_Demographic.df <- iepg_search("ETR 2023") %>%
+  pull(muid) %>%
+  iepg_get() %>%
+  ungroup() %>%
+  dplyr::filter(variablename == "Population Increase to 2050 (BANDED)") %>%
+  group_by(geocode) %>%
+  summarise(value = max(value)) %>%
+  dplyr::filter(str_starts(geocode, GEOCODE)) %>%
+  dplyr::filter(value == max(value)) %>%
+  rename(`Demographic Pressure` = value) %>%
+  mutate(geocode = GEOCODE) %>%
+  distinct() 
+
+
+data_frames <- list(
+  ETR_Water.df, ETR_Natural.df, ETR_Demographic.df
+)
+
+ETR_all_df <- ETR_Food.df
+
+for(df in data_frames) {
+  ETR_all_df <- ETR_all_df %>% left_join(df, by = "geocode")
+}
+
+
+ETR_all_df <- ETR_all_df %>%
+  dplyr::select(-c(`geocode`))
+
+ETR_all_df <- ETR_all_df %>%
+  pivot_longer(cols = c(`Food Security`, `Water Risk`, `Natural Hazard Exposure`, `Demographic Pressure`), 
+               names_to = "ETR Domains",
+               values_to = "ETR Score out of 5")
+
+
+
 # 4. Creating the Country Stats Table =====================================================
 
 GDP_df <- iepg_search() %>%
