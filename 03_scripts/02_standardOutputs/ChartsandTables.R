@@ -31,9 +31,14 @@ CHART_ACLED <- list(
 )
 
 
-MAP_BATTLE = c(title = "Increase in Battle Fatalities since 2018",
-               sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
-               type = "Map", position = "Normal")
+MAP_BATTLE = c(title = "",
+               sheet = "",
+               source = "IEP Calculations",
+               xtext = "", 
+               ytext = "",
+               type = "Map", 
+               position = "Normal")
+
 
 
 ### --- Loading Data -----------------------------------------------------------------
@@ -162,7 +167,7 @@ year_data <- Battle_deaths_df %>%
     min_year = min(year)
   )
 
-min_year <- max(year_data$min_year)
+min_year <- as.numeric(max(year_data$min_year))
 
 
 Battle_deaths_df <- Battle_deaths_df %>%
@@ -216,6 +221,8 @@ pMAP <- ggplot(data = shp.df) +
                     labels = shp.df$band) +
   labs(fill = "Deaths")
 
+MAP_title <- generate_title_map(Battle_deaths_df, min_year)
+MAP_BATTLE$title <- MAP_title
 
 pMAP<- f_ThemeTraining(
   plot = pMAP, 
@@ -294,17 +301,18 @@ data_frames <- list(
   ETR_Water.df, ETR_Natural.df, ETR_Demographic.df
 )
 
-ETR_all_df <- ETR_Food.df
+ETR_TABLE_df <- ETR_Food.df
 
 for(df in data_frames) {
-  ETR_all_df <- ETR_all_df %>% left_join(df, by = "geocode")
+  ETR_TABLE_df <- ETR_TABLE_df %>% 
+    left_join(df, by = "geocode")
 }
 
 
-ETR_all_df <- ETR_all_df %>%
+ETR_TABLE_df <- ETR_TABLE_df %>%
   dplyr::select(-c(`geocode`))
 
-ETR_all_df <- ETR_all_df %>%
+ETR_TABLE_df <- ETR_TABLE_df %>%
   pivot_longer(cols = c(`Food Security`, `Water Risk`, `Natural Hazard Exposure`, `Demographic Pressure`), 
                names_to = "ETR Domains",
                values_to = "ETR Score out of 5")
@@ -357,7 +365,8 @@ data_frames <- list(
 TABLE_df <- GDP_df
 
 for(df in data_frames) {
-  TABLE_df <- TABLE_df %>% left_join(df, by = "geocode")
+  TABLE_df <- TABLE_df %>% 
+    left_join(df, by = "geocode")
 }
 
 

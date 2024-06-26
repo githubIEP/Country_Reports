@@ -224,6 +224,17 @@ generate_title <- function(df, value_column) {
   return(title_string)
 }
 
+# Map Title Info ================================================================================
+
+
+generate_title_map <- function(df, min_year) {
+  
+  formatted_value <- format(min_year)
+  
+  title_string <- paste("Increase in Battle Fatalities since", formatted_value)
+  
+  return(title_string)
+}
 
 
 
