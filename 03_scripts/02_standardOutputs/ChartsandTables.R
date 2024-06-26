@@ -31,17 +31,9 @@ CHART_ACLED <- list(
 )
 
 
-
-MAP_BATTLE = c(title = "Deaths by Battles",
-            sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
-            type = "Map", position = "Normal")
-
-
 MAP_BATTLE = c(title = "Increase in Battle Fatalities since 2018",
                sheet = "", source = "IEP Calculations", xtext = "", ytext = "",
                type = "Map", position = "Normal")
-
-
 
 
 ### --- Loading Data -----------------------------------------------------------------
