@@ -239,7 +239,7 @@ pMAP<- f_ThemeTraining(
 pMAP
 
 
-# 3. Creting ETR Table =======================================================
+# 4. Creting ETR Table =======================================================
 
 
 ETR_Food.df <- iepg_search("ETR 2023") %>%
@@ -319,7 +319,7 @@ ETR_all_df <- ETR_all_df %>%
 
 
 
-# 4. Creating the Country Stats Table =====================================================
+# 5. Creating the Country Stats Table =====================================================
 
 GDP_df <- iepg_search() %>%
   dplyr::filter(variablename == "GDP per capita (constant 2010 US$)") %>%
