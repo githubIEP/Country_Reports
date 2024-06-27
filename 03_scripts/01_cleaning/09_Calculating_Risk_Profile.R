@@ -59,4 +59,4 @@ Risk_df <- Risk_df %>%
 Risk_df <- calculate_risk_levels(Risk_df, "GPI Score", "ETR", "PPI Score") %>%
   dplyr::select(-c(`geocode`, `GPI Score`, `ETR`, `PPI Score`, `composite_index`)) %>%
   rename(`Risk Level` = risk_level)
-
+ 
