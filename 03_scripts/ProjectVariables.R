@@ -11,8 +11,8 @@
 ##  Creating general Variables: COUNTRY NAME & most recent year  ##
 ###################################################################
 
-GEOCODE = "SOM"
-COUNTRY_NAME = "Somalia"
+GEOCODE = "BFA"
+COUNTRY_NAME = "Burkina Faso"
 LATEST_YEAR = 2024
 REGION <- get_region(GEOCODE)
 
