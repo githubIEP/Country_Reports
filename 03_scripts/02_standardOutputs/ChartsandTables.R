@@ -48,13 +48,13 @@ PPI_df <- rio::import("04_outputs/PPI_pillars.xlsx")
 ## -- CHART_BAR_CHART_PPI -----------------------------------------------------------------
 
 CHART_PPI.df <- PPI_df %>%
-  pivot_longer(cols = -c(geoname, year),
+  pivot_longer(cols = -c(geocode, year),
                names_to = "variablename",
                values_to = "PPI") %>%
   dplyr::filter(year > 2012)
 
 CHART_PPI.df <- CHART_PPI.df %>%
-  group_by(geoname, variablename) %>%
+  group_by(geocode, variablename) %>%
   mutate(
     min_year = min(year),
     max_year = max(year),
@@ -63,7 +63,7 @@ CHART_PPI.df <- CHART_PPI.df %>%
     pct_diff = (max_score - min_score) / min_score 
   ) %>%
   ungroup() %>%
-  select(-min_year, -max_year, -min_score, -max_score, -year, -geoname, -PPI) %>%
+  select(-min_year, -max_year, -min_score, -max_score, -year, -geocode, -PPI) %>%
   distinct() %>%
   mutate(color = ifelse(pct_diff > 0, "deterioration", "improvement")) 
 

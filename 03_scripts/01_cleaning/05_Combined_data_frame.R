@@ -30,8 +30,8 @@ PPI1 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`Acceptance of the Rights of Others` = `value`)
 
 
@@ -41,8 +41,8 @@ PPI2 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`Equitable Distribution of Resources` = `value`)
 
 
@@ -52,8 +52,8 @@ PPI3 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`Free Flow of Information` = `value`)
 
 
@@ -62,8 +62,8 @@ PPI4 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`PPI Overall Score` = `value`)
 
 
@@ -72,8 +72,8 @@ PPI5 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`Sound Business Environment` = `value`)
 
 
@@ -82,8 +82,8 @@ PPI6 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`Well-Functioning Government` = `value`)
 
 
@@ -92,8 +92,8 @@ PPI7 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`Low Levels of Corruption` = `value`)
 
 
@@ -102,8 +102,8 @@ PPI8 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`Good Relations with Neighbours` = `value`)
 
 PPI9 <- iepg_search("PPI 2023 Report") %>%
@@ -111,8 +111,8 @@ PPI9 <- iepg_search("PPI 2023 Report") %>%
   pull(muid) %>%
   iepg_get() %>%
   ungroup() %>%
-  dplyr::filter(geoname == COUNTRY_NAME) %>%
-  dplyr::select(c(`geoname`, `year`, `value`)) %>%
+  dplyr::filter(geocode == GEOCODE) %>%
+  dplyr::select(c(`geocode`, `year`, `value`)) %>%
   rename(`High Levels of Human Capital` = `value`)
 
 
