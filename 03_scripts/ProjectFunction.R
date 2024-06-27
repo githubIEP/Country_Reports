@@ -189,6 +189,7 @@ count_negative_values <- function(df, column_name, exclude_row) {
 
 
 
+
 get_overall_score <- function(df, variablename, column_name) {
   if (!is.character(column_name)) {
     stop("column_name must be a string.")
@@ -205,11 +206,10 @@ get_overall_score <- function(df, variablename, column_name) {
   
   percentage_value <- round(overall_row[[column_name]] * 100)
   
-  overall_score_statement <- paste("The overall PPI deteriorated by", percentage_value, "% since 2013.")
+  overall_score_statement <- paste("The overall PPI", ifelse(percentage_value > 0, "deteriorated", "improved"), "by", abs(percentage_value), "% since 2013.")
   
   return(overall_score_statement)
 }
-
 
 # ACLED Title Info ================================================================================
 
