@@ -26,6 +26,7 @@ save_plots_as_png(plot_list)
 existing_wb <- loadWorkbook("04_outputs/country_report.xlsx")
 
 # Write the generated text for GPI into a single cell for example, starcol is 1 and start row is 4 so its Column A and row 4
+writeData(existing_wb, sheet = "Sheet1", Risk_df$`Risk Level`, startCol = 6, startRow = 2, colNames = TRUE)
 writeData(existing_wb, sheet = "Sheet1", GPI_Sentence.df$text, startCol = 1, startRow = 4, colNames = FALSE)
 writeData(existing_wb, sheet = "Sheet1", PPI_Sentence.df$text, startCol = 1, startRow = 6, colNames = FALSE)
 writeData(existing_wb, sheet = "Sheet1", ETR_Sentence.df$text, startCol = 1, startRow = 8, colNames = FALSE)

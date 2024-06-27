@@ -319,3 +319,18 @@ add_demographic_pressure_band <- function(df) {
 }
 
 
+# Applying Risk function =================================================================
+
+calculate_risk_levels <- function(df, col1, col2, col3) {
+  df$composite_index <- rowMeans(df[, c(col1, col2, col3)], na.rm = TRUE)
+  
+  # Categorize the composite index into risk levels
+  df$risk_level <- cut(
+    df$composite_index,
+    breaks = c(-Inf, 2, 3, 4, 5),
+    labels = c("Low Risk", "Medium Risk", "High Risk", "Very High Risk"),
+    right = FALSE
+  )
+  
+  return(df)
+}
