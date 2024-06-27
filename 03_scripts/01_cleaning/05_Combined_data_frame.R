@@ -24,12 +24,14 @@ Indicators.df <- Indicators.df %>%
 ##                Creating PPI Pillars data frame                ##
 ################################################################## 
 
-# The purpose of this code is to 
+# The purpose of this code is to capture all the PPI pillars from 2009 to the latest available year
+# The reason for this is that the data frame will be used to create a chart of improvements and deterioration in PPI Pillars and overall score for the country.
 
 # The next set of codes will pull every PPI Pillar and overall score  from the database.
 # This combines all the PPI pillars as separate data frames and left joins them together to create a data frame for all 
 # pillars for all years for Burkina Faso
 # We then delete all the PPI data frames and save the master data frame to the PPI charts
+
 
 PPI1 <- iepg_search("PPI 2023 Report") %>%
   dplyr::filter(variablename == "Acceptance of the Rights of Others") %>%
@@ -135,6 +137,4 @@ for(df in data_frames) {
 }
 
 rm(PPI1,PPI2, PPI3, PPI4, PPI5, PPI6, PPI7, PPI8, PPI9)
-
-rio::export(PPI_pillars.df, "04_outputs/PPI_Pillars.xlsx")
 

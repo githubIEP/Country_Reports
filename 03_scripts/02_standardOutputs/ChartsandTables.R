@@ -41,13 +41,9 @@ MAP_BATTLE = c(title = "",
 
 
 
-### --- Loading Data -----------------------------------------------------------------
-
-PPI_df <- rio::import("04_outputs/PPI_pillars.xlsx")
-
 ## -- CHART_BAR_CHART_PPI -----------------------------------------------------------------
 
-CHART_PPI.df <- PPI_df %>%
+CHART_PPI.df <- PPI_pillars.df %>%
   pivot_longer(cols = -c(geocode, year),
                names_to = "variablename",
                values_to = "PPI") %>%
