@@ -1,7 +1,10 @@
 #################################################################
-##      Creating the GPI, PPI, GTI and ETR Ranks for Burkina Faso      ##
+##  Creating the GPI, PPI, GTI and ETR Ranks for Burkina Faso  ##
 #################################################################
 
+# This function then creates a loop to left join the GTI, GPI, PPI and ETR data frames 
+# This will create our combined data frame which will contain the GTI rank, GPI rank, PPI rank and ETR Score for the selected country.
+# The project export script will print the ranks and scores to the excel sheet. 
 
 data_frames <- list(
   GTI, PPI, ETR
@@ -18,9 +21,12 @@ Indicators.df <- Indicators.df %>%
 
 
 ##################################################################
-##                Creating PPI Pilars data frame                ##
-##################################################################
+##                Creating PPI Pillars data frame                ##
+################################################################## 
 
+# The purpose of this code is to 
+
+# The next set of codes will pull every PPI Pillar and overall score  from the database.
 # This combines all the PPI pillars as separate data frames and left joins them together to create a data frame for all 
 # pillars for all years for Burkina Faso
 # We then delete all the PPI data frames and save the master data frame to the PPI charts
