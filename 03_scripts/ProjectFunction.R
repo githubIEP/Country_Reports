@@ -317,7 +317,8 @@ generate_title_map <- function(df, min_year) {
 ##                    Colour Palette for Map                    ##
 ##################################################################
 
-# 
+# This function is there to create a colour palette for the map 
+# This will be applied to the map in the Charts and Tables script
 
 category_to_color <- function(category) {
   # Create a named vector for mapping categories to colors
@@ -337,9 +338,15 @@ category_to_color <- function(category) {
 }
 
 
+# -------------------------------------------------------------------------------------------------------------------------------
 
-# Creating ETR bands ================================================================================
 
+#################################################################
+##                          ETR Bands                          ##
+#################################################################
+
+# For each of the ETR domains, we want to assign a risk level, since this will be used to construct the ETR Statement that would appear in the final excel sheet. 
+# For each score it would assign either "Very Low risk", "low risk", "medium risk", "high risk" and "severe risk". 
 
 add_food_insecurity_band <- function(df) {
   df <- df %>%
@@ -396,7 +403,14 @@ add_demographic_pressure_band <- function(df) {
 }
 
 
-# Applying Risk function =================================================================
+# -------------------------------------------------------------------------------------------------------------------------------
+
+##################################################################
+##                    Calculating Risk Level                    ##
+##################################################################
+
+# This function is checks the data frame for the defined column and calculates the risk level by taking the average of the column values
+# After this it creates a band, where values 1 to 5 are assigned "Low Risk" to "Very High Risk".
 
 calculate_risk_levels <- function(df, col1, col2, col3) {
   df$composite_index <- rowMeans(df[, c(col1, col2, col3)], na.rm = TRUE)
