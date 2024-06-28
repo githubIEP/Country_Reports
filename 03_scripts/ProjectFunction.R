@@ -189,7 +189,22 @@ get_region <- function(geocode) {
 
 # -------------------------------------------------------------------------------------------------------------------------------
 
-# PPI Chart info  ===============================================================================
+##################################################################
+##        Function that creates a text for the PPI chart        ##
+##################################################################
+
+# There are two functions created to generate a statement in the PPI chart
+# The Statement will read like this:
+
+# "Since 2013, 4 out of the 8 Pillars improved and the other 4 deteriorated. The Overall PPI deteriorated by 2% since 2013."
+
+# To generate the first half of this sentence, we need to run a function that would scan the PPI data frame.
+# The code then categorizes the percentage change in PPI data frame 
+# The changes are then counted for both positive and negative changes.
+# The positive changes are called positive_count and negative changes are called negative_count.
+# The reason for this is so that the statement can be auto generated for any country and can paste the pillars that have deteriorated and improved.
+
+
 
 count_negative_values <- function(df, column_name, exclude_row) {
 
@@ -226,7 +241,12 @@ count_negative_values <- function(df, column_name, exclude_row) {
 }
 
 
-
+# This is the second function which completes the second half of the above statement. 
+# We want to know by how much the overall PPI improved or deteriorated.
+# To do this, the code selects the change in overall PPI from the PPI data frame multiplies it with 100 to get the percentage value
+# Then the code pastes the second half of the sentence
+# The code checks the percentage value and if the percentage value is positive, it would paste "deteriorated' and "improved" if the percentage value is negative.
+# It would the print the absolute value of the percentage so that the printed value would be strictly positive.
 
 get_overall_score <- function(df, variablename, column_name) {
   if (!is.character(column_name)) {
@@ -249,9 +269,18 @@ get_overall_score <- function(df, variablename, column_name) {
   return(overall_score_statement)
 }
 
-# ACLED Title Info ================================================================================
 
-# Function to generate the title string
+# -------------------------------------------------------------------------------------------------------------------------------
+
+#################################################################
+##                         ACLED Title                         ##
+#################################################################
+
+# Function to generate the title for the ACLED chart.
+# This function would check the Acled data frame and select the last value in the data frame and paste it in the title
+
+
+
 generate_title <- function(df, value_column) {
   latest_value <- tail(df[[value_column]], n = 1)
   
@@ -262,8 +291,14 @@ generate_title <- function(df, value_column) {
   return(title_string)
 }
 
-# Map Title Info ================================================================================
 
+# -------------------------------------------------------------------------------------------------------------------------------
+
+#################################################################
+##                        Title for Map                        ##
+#################################################################
+
+# This function checks the minimum date in the data frame and print the earliest date in the statement.
 
 generate_title_map <- function(df, min_year) {
   
@@ -275,10 +310,14 @@ generate_title_map <- function(df, min_year) {
 }
 
 
+# -------------------------------------------------------------------------------------------------------------------------------
 
-# Battle Death Colour function ===============================================================================
 
+##################################################################
+##                    Colour Palette for Map                    ##
+##################################################################
 
+# 
 
 category_to_color <- function(category) {
   # Create a named vector for mapping categories to colors
