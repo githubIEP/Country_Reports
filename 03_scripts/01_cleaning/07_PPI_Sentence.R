@@ -8,7 +8,7 @@
 #  It is currently ranked 17th in the region. This was driven by a deterioration in the Well Functioning Government Pillar. In the last five years
 #  Burkina Faso has seen an overall deterioration in Positive Peace."
 
-# In order to generate this statement we need the following
+# In order to generate this statement we need the following:
 
 # 1. The PPI rank in the country's region
 # 2. The overall PPI score
@@ -16,6 +16,8 @@
 
 # To start with, we pull the PPI score from the data base and filter by the country's region.
 # The next step is to use the rank function and rank all the scores from lowest to highest. 
+# The next block of codes would then pull the score and pillars from the database.
+
 
 
 
@@ -135,7 +137,7 @@ PPI_OVERALL.df <-  iepg_search("PPI 2023 Report") %>%
 
 
 
-
+# This loop then combines all the above data frames into one single data frame 
 
 data_frames <- list(
   PPI_REGION, PPI_PILLAR1.df, PPI_PILLAR2.df, PPI_PILLAR3.df, PPI_PILLAR4.df,
@@ -148,6 +150,11 @@ for(df in data_frames) {
   PPI_Sentence.df <- PPI_Sentence.df %>% left_join(df)
 }
 
+
+
+# Just like the previous script, this chunk of code creates a change column for all the domains and overall score
+# It also creates the five year change column to calculate the change in the overall score in five years.
+# And finally the code rounds the overall PPI score. 
 
 
 PPI_Sentence.df <- PPI_Sentence.df %>%
@@ -164,11 +171,29 @@ PPI_Sentence.df <- PPI_Sentence.df %>%
   mutate(`PPI Overall Score` = round(`PPI Overall Score`))
 
 
+# This code then takes the latest year. 
+
 PPI_Sentence.df <- PPI_Sentence.df %>%
   dplyr::filter(year == max(year))
 
 
 # Function to generate the text
+
+# This next block of code, creates a function to create the PPI statement
+# The way in which this function is structured such that, if the changes in the overall score is greater than zero,
+# the function will select first paragraph and if the change is not greater than zero, the function will select the second paragraph.
+
+# The reason for this is because if there is an improvement in the PPI score from the previous year, we want to select the pillar that drove its improvement.
+# Likewise if there is a deterioration in the overall score from the previous year, we want to select the pillar that drove the deterioration.
+
+
+# In order to create the paragraph, we start by creating a list of columns which include the change in pillar columns.
+# we have two categories that look at the max value in the pillar change columns and the min value in the pillar change column. 
+# We create a definition for each column whereby, the pillar change column is renamed to simply the name of the pillar.
+
+# This is done for both the max and min values of the pillar changes.
+
+
 
 generate_text <- function(row) {
   # Check if "overall score" is not missing
@@ -240,6 +265,7 @@ generate_text <- function(row) {
   }
 }
 
+# Apply the function to each row of the data frame
 
 PPI_Sentence.df$text <- apply(PPI_Sentence.df, 1, generate_text)
 

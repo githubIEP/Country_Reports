@@ -117,7 +117,7 @@ GPI_Sentence.df <- GPI_Sentence.df %>%
 
 
 # This next block of code, creates a function to create the GPI statement
-# The way in which this function is structured is such that, if the change overall score is greater than zero,
+# The way in which this function is structured such that, if the change overall score is greater than zero,
 # the function will select first paragraph and if the change is not greater than zero, the function will select the second paragraph.
 
 # The reason for this is because if there is an improvement in the GPI score from the previous year, we want to select the domain that drove its improvement.
@@ -126,7 +126,7 @@ GPI_Sentence.df <- GPI_Sentence.df %>%
 
 # In order to create the paragraph, we start by creating a list of columns which include the change in domain columns.
 # we have two categories that look at the max value in the domain change columns and the min value in the domain change column. 
-# We create a definition for each column whereby, if the domain change column is renamed to simply the name of the domain.
+# We create a definition for each column whereby, the domain change column is renamed to simply the name of the domain.
 
 # This is done for both the max and min values of the domain changes.
 
