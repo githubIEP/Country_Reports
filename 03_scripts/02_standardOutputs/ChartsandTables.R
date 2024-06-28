@@ -1,6 +1,6 @@
 #################################################################
 ##                       Charts Section:                       ##
-##               Positive Peace, maps, incidents               ##
+##               Positive Peace, Maps & Tables                 ##
 #################################################################
 
 ### --- Libraries, Variables, Functions
@@ -8,7 +8,7 @@ library(ggrepel)
 
 ### --- List of Standard Charts and Tables
 
-# Chart Pie for Burkina Faso's Positive Peace Pillars ====================================================
+# Chart for Burkina Faso's Positive Peace Pillars ====================================================
 
 CHART_PPI <- list( title = "Change in Pillars of Peace 2013 - 2022",
   sheet = "",  
