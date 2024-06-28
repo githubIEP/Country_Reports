@@ -1,6 +1,5 @@
-
 #################################################################
-##    This script is pulling the GPI overall score from the database ##
+##       Pulling the overall GPI score from the database       ##
 #################################################################
 
 # The purpose of this is to print the country's GPI rank on the excel sheet.
