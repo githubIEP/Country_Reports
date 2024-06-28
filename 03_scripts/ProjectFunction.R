@@ -1,3 +1,12 @@
+# -------------------------------------------------------------------------------------------------------------------------------
+
+#################################################################
+##             Function to load necessary packages             ##
+#################################################################
+
+# This function is defined to load the packages necessary for this project
+
+
 f_LibraryLoader <- function(...) {
   args <- substitute(list(...))[-1] # Capture the unquoted arguments
   package_names <- sapply(args, function(arg) {
@@ -20,7 +29,7 @@ f_LibraryLoader <- function(...) {
 }
 
 
-
+# This function loads the packages
 
 f_LibraryLoader(tidyverse, 
                 rlang,
@@ -31,8 +40,13 @@ f_LibraryLoader(tidyverse,
                 stringr,
                 iepsqlite)
 
+# -------------------------------------------------------------------------------------------------------------------------------
 
+##################################################################
+##                Function to Create Excel Sheet                ##
+##################################################################
 
+# This function creates the excel file where all the rankins, statements and tables would be printed.
 
 write_selected_columns_to_excel <- function(data, columns, file_name) {
   wb <- createWorkbook()
@@ -48,6 +62,15 @@ write_selected_columns_to_excel <- function(data, columns, file_name) {
   saveWorkbook(wb, file_name, overwrite = TRUE)
 }
 
+
+# -------------------------------------------------------------------------------------------------------------------------------
+
+#################################################################
+##                  Theme for Charts and Maps                  ##
+#################################################################
+
+# This theme function would apply a theme based on the plot description.
+# This theme specifies the axis, titles, grid lines, labels and legends based on the type of plot, wheter it is a 'chart' or 'map'
 
 
 f_ThemeTraining <- function(plot, chart_info, plottitle = "include", xaxis = "Include", yaxis = "Include", xgridline = "Include", ygridline = "Include") {
@@ -113,7 +136,14 @@ f_ThemeTraining <- function(plot, chart_info, plottitle = "include", xaxis = "In
   return(plot)
 }
 
-# Define the save_plots_as_png function
+
+# -------------------------------------------------------------------------------------------------------------------------------
+
+####################################################################
+##  Function to save plots to a location and save them as a png   ##
+####################################################################
+
+
 save_plots_as_png <- function(plot_names, dest_path = "04_outputs/plots") {
   if (!dir.exists(dest_path)) {
     dir.create(dest_path)
@@ -130,9 +160,15 @@ save_plots_as_png <- function(plot_names, dest_path = "04_outputs/plots") {
   }
 }
 
+# -------------------------------------------------------------------------------------------------------------------------------
 
+#################################################################
+##                   Function to pull Region                   ##
+#################################################################
 
-### Creating function to pull region from the geocode ============================================
+# Creating function to pull region from the geocode.
+# We first pull the geocode from the database. 
+# The code defines a function where a new column called gpi_region is created to pull the correspomding region based on the defined geocode. 
 
 df <- iepg_search("GPI 2023 Report") %>%
   dplyr::filter(variablename == "overall score") %>%
@@ -150,6 +186,8 @@ get_region <- function(geocode) {
   }
 }
 
+
+# -------------------------------------------------------------------------------------------------------------------------------
 
 # PPI Chart info  ===============================================================================
 
