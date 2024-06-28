@@ -2,9 +2,20 @@
 ##                   PPI Statement Structure                   ##
 #################################################################
 
-#
+# This is similar to the GPI statement. We create a paragraph for the country's PPI position and it reads like this:
 
+# "In 2022, Burkina Faso had an overall score of 4 in the POSITIVE PEACE REPORT. This represents a deterioration from the previous year. 
+#  It is currently ranked 17th in the region. This was driven by a deterioration in the Well Functioning Government Pillar. In the last five years
+#  Burkina Faso has seen an overall deterioration in Positive Peace."
 
+# In order to generate this statement we need the following
+
+# 1. The PPI rank in the country's region
+# 2. The overall PPI score
+# 3. All 8 Pillars of the PPI
+
+# To start with, we pull the PPI score from the data base and filter by the country's region.
+# The next step is to use the rank function and rank all the scores from lowest to highest. 
 
 
 
